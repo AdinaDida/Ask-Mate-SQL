@@ -25,3 +25,17 @@ def get_answers(question_id):
                 answers_for_question.append(row[4])
     return answers_for_question
 
+
+def add_question(data):
+    with open('sample_data/question.csv', 'a') as new_question_obj:
+        writer = csv.writer(new_question_obj)
+        writer.writerow(data)
+
+
+def get_latest_id():
+    with open('sample_data/question.csv', 'r') as id_obj:
+        reader = csv.reader(id_obj)
+        id_ = -2
+        for row in reader:
+            id_ += 1
+    return id_
