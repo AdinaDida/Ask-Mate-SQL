@@ -1,5 +1,6 @@
 import csv
 
+
 def get_all_questions():
     all_questions = {}
     with open('sample_data/question.csv', 'r') as question_obj:
@@ -39,6 +40,7 @@ def get_latest_id(file):
         for row in reader:
             id_ += 1
     return id_
+
 
 def add_answer(data):
     with open('sample_data/answer.csv', 'a') as new_answer_obj:

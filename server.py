@@ -21,14 +21,12 @@ def route_question(question_id):
     questions_dict = conection.get_all_questions()
     question = questions_dict[question_id]['title']
     question_message = questions_dict[question_id]['message']
-
     return render_template('question.html', question_id=question_id, answers=answers, question=question,
                            question_message=question_message)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
-    questions_dict = conection.get_all_questions()
     id_ = conection.get_latest_id("sample_data/question.csv")
     if request.method == 'POST':
         id_ += 1
@@ -49,7 +47,7 @@ def route_add_question():
 def route_add_answer(question_id):
     answer_id = conection.get_latest_id('sample_data/answer.csv')
     if request.method == 'POST':
-        answer_id +=1
+        answer_id += 1
         answer_id = str(answer_id)
         submission_time = int(time.time())
         vote_number = 0
@@ -57,7 +55,6 @@ def route_add_answer(question_id):
         image = ''
         new_answer = [answer_id, submission_time, vote_number, question_id, message, image]
         conection.add_answer(new_answer)
-        # return redirect(url_for('route_question', question_id=question_id), question_id=question_id)
         return redirect(url_for('route_question', question_id=question_id))
 
     return render_template('new_answer.html', question_id=question_id)
