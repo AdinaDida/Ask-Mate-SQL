@@ -23,7 +23,11 @@
             <tr>
                 <td>{{ key }}</td>
                 {% for data_key in questions_dict[key] %}
-                    <td>{{ questions_dict[key][data_key] }}</td>
+                    {% if data_key == 'title' %}
+                        <td><a href="/question/{{ key }}">{{ questions_dict[key][data_key] }}</a></td>
+                    {% else %}
+                        <td>{{ questions_dict[key][data_key] }}</td>
+                    {% endif %}
                 {% endfor %}
             </tr>
             {% endfor %}

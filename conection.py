@@ -11,8 +11,17 @@ def get_all_questions():
                                         'title': row['title'],
                                         'message': row['message'],
                                         'image': row['image']}
-    # sorted(d.items(), key=lambda x: x[1]['k'], reverse=True)
     sorted_all_questions = sorted(all_questions.items(), key=lambda element: element[1]['submission_time'],
                                   reverse=True)
     return dict(sorted_all_questions)
+
+
+def get_answers(question_id):
+    answers_for_question = []
+    with open('sample_data/answer.csv', 'r') as answer_obj:
+        reader = csv.reader(answer_obj)
+        for row in reader:
+            if row[3] == question_id:
+                answers_for_question.append(row[4])
+    return answers_for_question
 
