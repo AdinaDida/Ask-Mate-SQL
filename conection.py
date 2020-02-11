@@ -32,10 +32,15 @@ def add_question(data):
         writer.writerow(data)
 
 
-def get_latest_id():
-    with open('sample_data/question.csv', 'r') as id_obj:
+def get_latest_id(file):
+    with open(file, 'r') as id_obj:
         reader = csv.reader(id_obj)
         id_ = -2
         for row in reader:
             id_ += 1
     return id_
+
+def add_answer(data):
+    with open('sample_data/answer.csv', 'a') as new_answer_obj:
+        writer = csv.writer(new_answer_obj)
+        writer.writerow(data)

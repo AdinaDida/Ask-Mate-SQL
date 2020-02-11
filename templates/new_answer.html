@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Answer</title>
+</head>
+<body>
+    <form action="/question/{{question_id}}/new-answer" method="POST">
+        <label for="message">Your answer:</label>
+        <textarea id="message" name="message" placeholder="Type your answer here!" required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

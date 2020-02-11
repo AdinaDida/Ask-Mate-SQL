@@ -8,6 +8,7 @@
     <h1>{{ question }}</h1>
     <h2>{{ question_message }}</h2>
     <br>
+    <button type="submit"><a href="/question/{{question_id}}/new-answer">Add an answer</a></button>
     <h2>Answers:</h2>
     <ul>
         {% for answer in answers %}
