@@ -8,9 +8,16 @@ app = Flask(__name__)
 
 
 @app.route('/')
-@app.route('/list')
+@app.route('/list', methods=['GET', 'POST'])
 def route_list():
     questions_dict = conection.get_all_questions()
+
+    if request.method == 'POST':
+        type_ = request.form['sorting']
+        direction = request.form['sort']
+        question_sort = data_manager.sort_dict(type_, direction)
+        questions_dict = question_sort
+        return redirect('/')
 
     return render_template('list.html', questions_dict=questions_dict)
 
