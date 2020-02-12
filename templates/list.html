@@ -39,15 +39,14 @@
             </tr>
         </thead>
         <tbody>
-            {% for key in questions_dict %}
+            {% for dictionary in questions_list %}
             <tr>
-                <td>{{ key }}</td>
-                {% for data_key in questions_dict[key] %}
-                {% if data_key == 'title' %}
-                <td><a href="/question/{{ key }}">{{ questions_dict[key][data_key] }}</a></td>
-                {% else %}
-                <td>{{ questions_dict[key][data_key] }}</td>
-                {% endif %}
+                {% for key in dictionary %}
+                    {% if key == 'title' %}
+                    <td><a href="/question/{{ dictionary['id'] }}">{{ dictionary[key] }}</a></td>
+                    {% else %}
+                    <td>{{ dictionary[key] }}</td>
+                    {% endif %}
                 {% endfor %}
             </tr>
             {% endfor %}

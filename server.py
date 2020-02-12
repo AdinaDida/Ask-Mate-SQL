@@ -10,24 +10,26 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/list', methods=['GET', 'POST'])
 def route_list():
-    questions_dict = conection.get_all_questions()
+    questions_list = conection.get_all_questions()
 
     if request.method == 'POST':
         type_ = request.form['sorting']
         direction = bool(request.form['sort'])
         question_sort = data_manager.sort_dict(type_, direction)
-        questions_dict = dict(question_sort)
-        return render_template('list.html', questions_dict=questions_dict)
+        questions_list = dict(question_sort)
+        return render_template('list.html', questions_list=questions_list)
 
-    return render_template('list.html', questions_dict=questions_dict)
+    return render_template('list.html', questions_list=questions_list)
 
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
     answers = conection.get_answers(question_id)
-    questions_dict = conection.get_all_questions()
-    question = questions_dict[question_id]['title']
-    question_message = questions_dict[question_id]['message']
+    questions_list = conection.get_all_questions()
+    question_dict = questions_list[int(question_id)]
+    question = question_dict['title']
+    question_message_dict = questions_list[int(question_id)]
+    question_message = question_message_dict['message']
     return render_template('question.html', question_id=question_id, answers=answers, question=question,
                            question_message=question_message)
 
@@ -37,7 +39,7 @@ def route_add_question():
     id_ = conection.get_latest_id("sample_data/question.csv")
     if request.method == 'POST':
         id_ += 1
-        id_ = str(id_)
+        # id_ = str(id_)
         submission_time = int(time.time())
         view_number = 1
         vote_number = 0
