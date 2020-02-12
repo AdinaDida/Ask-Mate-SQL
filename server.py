@@ -14,10 +14,9 @@ def route_list():
 
     if request.method == 'POST':
         type_ = request.form['sorting']
-        direction = bool(request.form['sort'])
-        question_sort = data_manager.sort_dict(type_, direction)
-        questions_list = dict(question_sort)
-        return render_template('list.html', questions_list=questions_list)
+        direction = request.form['sort']
+        question_sort = data_manager.sort_list(type_, direction)
+        return render_template('list.html', questions_list=question_sort, type_=type_, direction=direction)
 
     return render_template('list.html', questions_list=questions_list)
 
