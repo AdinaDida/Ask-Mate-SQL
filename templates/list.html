@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Ask Mate</title>
 </head>
+
 <body>
     <h1>Ask Mate</h1>
     <button type="submit"><a href="/add-question">Ask a question</a></button>
@@ -12,10 +14,10 @@
         <label for="sorting">Select sorting type:</label>
         <select id="sorting" name="sorting">
             <option value="title">By Title</option>
-            <option value="submission-time">By Submission Time</option>
+            <option value="submission_time">By Submission Time</option>
             <option value="message">By Message</option>
-            <option value="number_of_views">By Number of Views</option>
-            <option value="number_of_votes">By Number of Votes</option>
+            <option value="view_number">By Number of Views</option>
+            <option value="vote_number">By Number of Votes</option>
         </select>
         <label for="sort">Sorting Order:</label>
         <select id="sort" name="sort">
@@ -41,15 +43,16 @@
             <tr>
                 <td>{{ key }}</td>
                 {% for data_key in questions_dict[key] %}
-                    {% if data_key == 'title' %}
-                        <td><a href="/question/{{ key }}">{{ questions_dict[key][data_key] }}</a></td>
-                    {% else %}
-                        <td>{{ questions_dict[key][data_key] }}</td>
-                    {% endif %}
+                {% if data_key == 'title' %}
+                <td><a href="/question/{{ key }}">{{ questions_dict[key][data_key] }}</a></td>
+                {% else %}
+                <td>{{ questions_dict[key][data_key] }}</td>
+                {% endif %}
                 {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </body>
+
 </html>

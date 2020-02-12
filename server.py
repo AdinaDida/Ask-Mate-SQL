@@ -14,10 +14,10 @@ def route_list():
 
     if request.method == 'POST':
         type_ = request.form['sorting']
-        direction = request.form['sort']
+        direction = bool(request.form['sort'])
         question_sort = data_manager.sort_dict(type_, direction)
-        questions_dict = question_sort
-        return redirect('/')
+        questions_dict = dict(question_sort)
+        return render_template('list.html', questions_dict=questions_dict)
 
     return render_template('list.html', questions_dict=questions_dict)
 
@@ -44,7 +44,8 @@ def route_add_question():
         title = request.form['title']
         message = request.form['message']
         image = ''
-        new_question = [id_, submission_time, view_number, vote_number, title, message, image]
+        new_question = [id_, submission_time, view_number,
+                        vote_number, title, message, image]
         conection.add_question(new_question)
         return redirect(url_for('route_question', question_id=id_))
     return render_template('add_question.html')
@@ -60,7 +61,8 @@ def route_add_answer(question_id):
         vote_number = 0
         message = request.form['message']
         image = ''
-        new_answer = [answer_id, submission_time, vote_number, question_id, message, image]
+        new_answer = [answer_id, submission_time,
+                      vote_number, question_id, message, image]
         conection.add_answer(new_answer)
         return redirect(url_for('route_question', question_id=question_id))
 

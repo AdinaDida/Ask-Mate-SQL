@@ -12,7 +12,7 @@ def get_all_questions():
                                         'title': row['title'],
                                         'message': row['message'],
                                         'image': row['image']}
-    sorted_all_questions = sorted(all_questions.items(), key=lambda element: element[1]['submission_time'],
+    sorted_all_questions = sorted(all_questions.items(), key=lambda element: element[1]['view_number'],
                                   reverse=True)
     return dict(sorted_all_questions)
 
