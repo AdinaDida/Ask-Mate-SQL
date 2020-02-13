@@ -7,13 +7,15 @@
 <body>
     <h1>{{ question }}</h1>
     <h2>{{ question_message }}</h2>
+    <img src="{{ image }}" height="400">
     <br>
     <button type="submit"><a href="/question/{{question_id}}/edit">Edit question</a></button>
     <button type="submit"><a href="/question/{{question_id}}/new-answer">Add an answer</a></button>
     <h2>Answers:</h2>
     <ul>
-        {% for answer in answers %}
-            <li>{{ answer }}</li>
+        {% for row in answer_images %}
+            <li>{{ row[0] }}</li>
+            <img src="../static/{{ row[1] }}" height="200">
         {% endfor %}
     </ul>
 </body>

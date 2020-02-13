@@ -5,11 +5,15 @@
     <title>Add Question</title>
 </head>
 <body>
-    <form action="/add-question" method="POST">
+    <form action="/add-question" method="POST" enctype="multipart/form-data">
         <label for="title">Question:</label><br>
         <textarea id="title" name="title" placeholder="Type the question here!" required></textarea><br>
         <label for="message">Message:</label><br>
         <textarea id="message" name="message" placeholder="Type the message here!" required></textarea><br>
+
+        <label for="image">Upload new File</label>
+        <input type="file" id="image" name="image_file">
+
         <button type="submit">Submit</button>
     </form>
 </body>

@@ -55,3 +55,13 @@ def convert_to_list():
         for row in file_reader:
             list_of_questions.append(row)
     return list_of_questions
+
+
+def get_answers_and_images(question_id):
+    list_of_images = []
+    with open('sample_data/answer.csv', 'r') as answer_obj:
+        reader = csv.reader(answer_obj)
+        for row in reader:
+            if row[3] == question_id:
+                list_of_images.append([row[4], row[5]])
+    return list_of_images
