@@ -46,6 +46,11 @@ def update_question(data):
         file_write = csv.writer(update_obj)
         file_write.writerows(data)
 
+def update_answer(data):
+    with open("sample_data/answer.csv", "w") as update_obj:
+        file_write = csv.writer(update_obj)
+        file_write.writerows(data)
+
 
 def convert_to_list():
     list_of_questions = []
@@ -65,3 +70,11 @@ def get_answers_and_images(question_id):
             if row[3] == question_id:
                 list_of_images.append([row[4], row[5]])
     return list_of_images
+
+def all_answer_content():
+    all_answer_content = []
+    with open('sample_data/answer.csv', 'r') as new_answer_obj:
+        reader = csv.reader(new_answer_obj)
+        for row in reader:
+            all_answer_content.append(row)
+    return all_answer_content

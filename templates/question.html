@@ -11,11 +11,14 @@
     <br>
     <button type="submit"><a href="/question/{{question_id}}/edit">Edit question</a></button>
     <button type="submit"><a href="/question/{{question_id}}/new-answer">Add an answer</a></button>
+    <button type="submit"><a href="/question/{{question_id}}/delete">Delete </a></button>
     <h2>Answers:</h2>
     <ul>
         {% for row in answer_images %}
             <li>{{ row[0] }}</li>
             <img src="../static/{{ row[1] }}" height="200">
+        {% for answer in answers %}
+            <li>{{ answer }} <button type="submit"><a href="/answer/{{answer_id}}/delete">Delete </a></button></li>
         {% endfor %}
     </ul>
 </body>
