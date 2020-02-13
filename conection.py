@@ -46,6 +46,11 @@ def update_question(data):
         file_write = csv.writer(update_obj)
         file_write.writerows(data)
 
+def update_answer(data):
+    with open("sample_data/answer.csv", "w") as update_obj:
+        file_write = csv.writer(update_obj)
+        file_write.writerows(data)
+
 
 def convert_to_list():
     list_of_questions = []
@@ -55,3 +60,12 @@ def convert_to_list():
         for row in file_reader:
             list_of_questions.append(row)
     return list_of_questions
+
+
+def all_answer_content():
+    all_answer_content = []
+    with open('sample_data/answer.csv', 'r') as new_answer_obj:
+        reader = csv.reader(new_answer_obj)
+        for row in reader:
+            all_answer_content.append(row)
+    return all_answer_content
