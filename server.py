@@ -11,13 +11,11 @@ app = Flask(__name__)
 @app.route('/list', methods=['GET', 'POST'])
 def route_list():
     questions_list = conection.get_all_questions()
-
     if request.method == 'POST':
         type_ = request.form['sorting']
         direction = request.form['sort']
         question_sort = data_manager.sort_list(type_, direction)
         return render_template('list.html', questions_list=question_sort, type_=type_, direction=direction)
-
     return render_template('list.html', questions_list=questions_list)
 
 
@@ -38,7 +36,6 @@ def route_add_question():
     id_ = conection.get_latest_id("sample_data/question.csv")
     if request.method == 'POST':
         id_ += 1
-        # id_ = str(id_)
         submission_time = int(time.time())
         view_number = 1
         vote_number = 0
@@ -66,8 +63,30 @@ def route_add_answer(question_id):
                       vote_number, question_id, message, image]
         conection.add_answer(new_answer)
         return redirect(url_for('route_question', question_id=question_id))
-
     return render_template('new_answer.html', question_id=question_id)
+
+
+@app.route('/question/<int:question_id>/edit', methods=["GET", "POST"])
+def route_update_question(question_id):
+    questions_list = conection.convert_to_list()
+    old_question = questions_list[question_id]
+    questions_list.remove(old_question)
+    if request.method == 'POST':
+        id_ = question_id
+        submission_time = int(time.time())
+        view_number = 1
+        vote_number = 0
+        title = request.form['title']
+        message = request.form['message']
+        image = ''
+        question_updated = [id_, submission_time, view_number,
+                            vote_number, title, message, image]
+        questions_list.insert(question_id, question_updated)
+        questions_list.insert(0, ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"])
+        conection.update_question(questions_list)
+        return redirect(url_for('route_question', question_id=id_))
+    return render_template('update_question.html', question_id=question_id, message=old_question[5],
+                           title=old_question[4])
 
 
 if __name__ == '__main__':

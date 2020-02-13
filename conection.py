@@ -6,9 +6,7 @@ def get_all_questions():
     with open('sample_data/question.csv', 'r') as question_obj:
         reader = csv.DictReader(question_obj)
         for row in reader:
-            all_questions.append(row)
-    # sorted_all_questions = sorted(all_questions.items(), key=lambda element: element[1]['view_number'],
-    #                               reverse=True)
+            all_questions.append(dict(row))
     return all_questions
 
 
@@ -41,3 +39,19 @@ def add_answer(data):
     with open('sample_data/answer.csv', 'a') as new_answer_obj:
         writer = csv.writer(new_answer_obj)
         writer.writerow(data)
+
+
+def update_question(data):
+    with open("sample_data/question.csv", "w") as update_obj:
+        file_write = csv.writer(update_obj)
+        file_write.writerows(data)
+
+
+def convert_to_list():
+    list_of_questions = []
+    with open("sample_data/question.csv", "r") as list_obj:
+        file_reader = csv.reader(list_obj)
+        next(file_reader)
+        for row in file_reader:
+            list_of_questions.append(row)
+    return list_of_questions
