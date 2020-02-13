@@ -3,7 +3,6 @@ from operator import itemgetter
 
 
 def sort_list(type_, direction=False):
-    print(type_)
     all_questions = conection.get_all_questions()
     all_questions_sorted = convert_to_int(all_questions)
     if direction == "ascending":
