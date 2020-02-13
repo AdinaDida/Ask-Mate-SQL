@@ -1,25 +1,16 @@
 from flask import Flask, render_template, redirect, request, url_for
-
 import data_manager
 import conection
 import time
-
-# Add image functionality
 import os
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-# End of Add image functionality
-
 
 app = Flask(__name__)
 
-# Add image functionality
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
-# End of Add image functionality
 
 
 @app.route('/')
@@ -36,13 +27,6 @@ def route_list():
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
-    # answers = conection.get_answers(question_id)
-    # all_answer_info = conection.all_answer_content()
-    # answer_id = None
-    # for answer in answers:
-    #     for info in all_answer_info:
-    #         if answer == info[4]:
-    #             answer_id = info[0]
     questions_list = conection.get_all_questions()
     question_dict = questions_list[int(question_id)]
     question = question_dict['title']
@@ -64,8 +48,6 @@ def route_add_question():
         vote_number = 0
         title = request.form['title']
         message = request.form['message']
-
-        # Add image functionality
         if 'image_file' not in request.files:
             return redirect(url_for('route_question', question_id=id_))
         file = request.files['image_file']
@@ -75,8 +57,6 @@ def route_add_question():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         image = file.filename
-        # End of Add image functionality
-
         new_question = [id_, submission_time, view_number,
                         vote_number, title, message, image]
         conection.add_question(new_question)
@@ -94,23 +74,16 @@ def route_add_answer(question_id):
         submission_time = int(time.time())
         vote_number = 0
         message = request.form['message']
-
-        # Add image functionality
         if 'image_file' not in request.files:
-            print(request.files)
-            print('LINIA90')
             return redirect(url_for('route_question', question_id=question_id))
         file = request.files['image_file']
         if file.filename == '':
-            print('LINIA94')
-            return redirect(url_for('route_question', question_id=question_id))
-        if file and allowed_file(file.filename):
-            print('LINIA97')
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        image = file.filename
-        # End of Add image functionality
-
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image = file.filename
+        else:
+            image = ""
         new_answer = [answer_id, submission_time,
                       vote_number, question_id, message, image]
         conection.add_answer(new_answer)
@@ -173,6 +146,58 @@ def delete_answer(answer_id):
             new_id -= 1
             answers[i + 1][0] = new_id
     conection.update_answer(answers)
+    return redirect(url_for('route_question', question_id=id_))
+
+
+@app.route("/question/<question_id>/vote_up")
+def vote_up_question(question_id):
+    all_question = conection.convert_to_list()
+    for row in all_question:
+        if row[0] == question_id:
+            vote_number = int(row[3])
+            vote_number += 1
+            row[3] = vote_number
+    all_question.insert(0, ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"])
+    conection.update_question(all_question)
+    return redirect("/")
+
+
+@app.route("/question/<question_id>/vote_down")
+def vote_down_question(question_id):
+    all_question = conection.convert_to_list()
+    for row in all_question:
+        if row[0] == question_id:
+            vote_number = int(row[3])
+            vote_number -= 1
+            row[3] = vote_number
+    all_question.insert(0, ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"])
+    conection.update_question(all_question)
+    return redirect("/")
+
+
+@app.route("/answer/<answer_id>/vote_up")
+def vote_up_answer(answer_id):
+    all_answers = conection.all_answer_contents()
+    for row in all_answers:
+        if row[0] == answer_id:
+            vote_number = int(row[2])
+            vote_number += 1
+            row[2] = vote_number
+            id_ = row[3]
+    conection.update_answer(all_answers)
+    return redirect(url_for('route_question', question_id=id_))
+
+
+@app.route("/answer/<answer_id>/vote_down")
+def vote_down_answer(answer_id):
+    all_answers = conection.all_answer_contents()
+    for row in all_answers:
+        if row[0] == answer_id:
+            vote_number = int(row[2])
+            vote_number -= 1
+            row[2] = vote_number
+            id_ = row[3]
+    conection.update_answer(all_answers)
     return redirect(url_for('route_question', question_id=id_))
 
 

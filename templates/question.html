@@ -7,16 +7,23 @@
 <body>
     <h1>{{ question }}</h1>
     <h2>{{ question_message }}</h2>
-    <img src="{{ image }}" height="400">
+    <img src="{{ image }}" height="400" alt="No image for this question!">
     <br>
+    <button type="submit"><a href="/question/{{question_id}}/vote_up">Like</a></button>
+    <button type="submit"><a href="/question/{{question_id}}/vote_down">Dislike</a></button>
     <button type="submit"><a href="/question/{{question_id}}/edit">Edit question</a></button>
     <button type="submit"><a href="/question/{{question_id}}/new-answer">Add an answer</a></button>
     <button type="submit"><a href="/question/{{question_id}}/delete">Delete </a></button>
     <h2>Answers:</h2>
     <ul>
         {% for row in answer_images %}
-            <li>{{ row[4] }}<button type="submit"><a href="/answer/{{row[0]}}/delete">Delete </a></button></li>
-            <img src="../static/{{ row[5] }}" height="200">
+            <li>{{ row[4] }} {{ row[2] }}<button type="submit"><a href="/answer/{{row[0]}}/delete">Delete </a></button>
+                <button type="submit"><a href="/answer/{{row[0]}}/vote_up">Like</a></button>
+                <button type="submit"><a href="/answer/{{row[0]}}/vote_down">Dislike</a></button>
+            </li>
+            {% if row[5] != ''%}
+                <img src="../static/{{ row[5] }}" height="200">
+            {% endif %}
         {% endfor %}
     </ul>
 </body>
