@@ -71,10 +71,19 @@ def get_answers_and_images(question_id):
                 list_of_images.append([row[4], row[5]])
     return list_of_images
 
-def all_answer_content():
+def all_answer_content(question_id):
     all_answer_content = []
     with open('sample_data/answer.csv', 'r') as new_answer_obj:
         reader = csv.reader(new_answer_obj)
         for row in reader:
-            all_answer_content.append(row)
+            if row[3] == question_id:
+                all_answer_content.append(row)
+    return all_answer_content
+
+def all_answer_contents():
+    all_answer_content = []
+    with open('sample_data/answer.csv', 'r') as new_answer_obj:
+        reader = csv.reader(new_answer_obj)
+        for row in reader:
+                all_answer_content.append(row)
     return all_answer_content

@@ -15,10 +15,8 @@
     <h2>Answers:</h2>
     <ul>
         {% for row in answer_images %}
-            <li>{{ row[0] }}</li>
-            <img src="../static/{{ row[1] }}" height="200">
-        {% for answer in answers %}
-            <li>{{ answer }} <button type="submit"><a href="/answer/{{answer_id}}/delete">Delete </a></button></li>
+            <li>{{ row[4] }}<button type="submit"><a href="/answer/{{row[0]}}/delete">Delete </a></button></li>
+            <img src="../static/{{ row[5] }}" height="200">
         {% endfor %}
     </ul>
 </body>

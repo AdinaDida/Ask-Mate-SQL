@@ -7,6 +7,7 @@ import time
 # Add image functionality
 import os
 from werkzeug.utils import secure_filename
+
 UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 # End of Add image functionality
@@ -16,6 +17,8 @@ app = Flask(__name__)
 
 # Add image functionality
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 # End of Add image functionality
 
 
@@ -33,23 +36,22 @@ def route_list():
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
-    answers = conection.get_answers(question_id)
-    all_answer_info = conection.all_answer_content()
-    answer_id = None
-    for answer in answers:
-        for info in all_answer_info:
-            if answer == info[4]:
-                answer_id = info[0]
+    # answers = conection.get_answers(question_id)
+    # all_answer_info = conection.all_answer_content()
+    # answer_id = None
+    # for answer in answers:
+    #     for info in all_answer_info:
+    #         if answer == info[4]:
+    #             answer_id = info[0]
     questions_list = conection.get_all_questions()
     question_dict = questions_list[int(question_id)]
     question = question_dict['title']
     question_message_dict = questions_list[int(question_id)]
     question_message = question_message_dict['message']
     image = url_for('static', filename=question_dict['image'])
-    answer_images = conection.get_answers_and_images(question_id)
-    return render_template('question.html', question_id=question_id, answers=answers, question=question,
+    answer_images = conection.all_answer_content(question_id)
+    return render_template('question.html', question_id=question_id, question=question,
                            question_message=question_message, image=image, answer_images=answer_images)
-                           question_message=question_message, answer_id=answer_id)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -139,11 +141,6 @@ def route_update_question(question_id):
                            title=old_question[4])
 
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
     id_ = conection.get_latest_id("sample_data/question.csv")
@@ -165,7 +162,7 @@ def delete_question(question_id):
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
     final_id = conection.get_latest_id('sample_data/answer.csv')
-    answers = conection.all_answer_content()
+    answers = conection.all_answer_contents()
     for answer in answers:
         if answer[0] == answer_id:
             id_ = answer[3]
@@ -177,6 +174,11 @@ def delete_answer(answer_id):
             answers[i + 1][0] = new_id
     conection.update_answer(answers)
     return redirect(url_for('route_question', question_id=id_))
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 if __name__ == '__main__':
