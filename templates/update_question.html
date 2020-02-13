@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Question</title>
+</head>
+<body>
+    <h1>Update Question</h1><br>
+    <form action="/question/{{question_id}}/edit" method="POST">
+        <label for="title">Edit question:</label><br>
+        <textarea id="title"  name="title" required>{{title}}</textarea><br>
+        <label for="message">Edit message:</label><br>
+        <textarea id="message"  name="message" required>{{message}}</textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
