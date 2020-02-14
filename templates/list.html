@@ -11,7 +11,7 @@
     <div class="banner-img">
     <div class="banner-text">
     <h1>Ask Mate</h1>
-    <button type="submit"><a href="/add-question">Ask a question</a></button>
+    <button type="submit" id="ask_button"><a href="/add-question">Ask a question</a></button>
     <br><br>
     <form action="/list" method="POST">
         <label for="sorting">Select sorting type by:</label>
@@ -22,12 +22,14 @@
             <option value="view_number">Number of Views</option>
             <option value="vote_number">Number of Votes</option>
         </select>
+        <br><br>
         <label for="sort">Sorting Order:</label>
         <select id="sort" name="sort">
             <option value="ascending">Ascending</option>
             <option value="descending">Descending</option>
         </select>
         <button type="submit">Sort</button>
+        <br><br>
     </form>
     <table>
         <thead>

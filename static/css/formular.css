@@ -8,15 +8,21 @@ body,html{
     margin: 0;
     padding: 0;
     font-family: 'Ubuntu';
+    font-size: x-large;
 
 }
 
 h1{
-    font-size: 70%;
+    margin-left: 200px;
+    font-size: 300%;
     margin: 0;
 }
 
-
+form{
+    margin-left: 200px;
+    margin-top: 100px;
+    font-size: 200%;
+}
 
 
 .banner-img{
@@ -25,6 +31,7 @@ h1{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+    background-attachment: fixed;
     height: 100%;
 }
 .banner-text{
@@ -34,9 +41,25 @@ h1{
 }
 
 a{
-    color: #D9AC2A;
+    color: #F3CD05;
     font-weight: bold;
 }
-button{
-    color:black;
+
+button {
+    background-color: #1E88E5;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bolder;
+    border: 0;
+    border-radius: 5px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #07CFF0;
+}
+
+form textarea{
+    font-size: 0.5em;
 }

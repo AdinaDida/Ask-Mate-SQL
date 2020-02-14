@@ -77,7 +77,7 @@ def route_add_answer(question_id):
         if 'image_file' not in request.files:
             return redirect(url_for('route_question', question_id=question_id))
         file = request.files['image_file']
-        if file.filename == '':
+        if file.filename != '':
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
