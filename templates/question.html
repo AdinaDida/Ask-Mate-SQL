@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Question</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="css/question.css")}}">
 </head>
 <body>
+    <div class="banner-img">
+    <div class="banner-text">
     <h1>{{ question }}</h1>
     <h2>{{ question_message }}</h2>
     <img src="{{ image }}" height="400" alt="No image for this question!">
@@ -14,17 +17,21 @@
     <button type="submit"><a href="/question/{{question_id}}/edit">Edit question</a></button>
     <button type="submit"><a href="/question/{{question_id}}/new-answer">Add an answer</a></button>
     <button type="submit"><a href="/question/{{question_id}}/delete">Delete </a></button>
-    <h2>Answers:</h2>
+    <h2>VOTES & ANSWERS:</h2>
     <ul>
         {% for row in answer_images %}
-            <li>{{ row[4] }} {{ row[2] }}<button type="submit"><a href="/answer/{{row[0]}}/delete">Delete </a></button>
+            <li><button type="submit"><a href="/answer/{{row[0]}}/delete">Delete </a></button>
+                {{ row[2] }}
                 <button type="submit"><a href="/answer/{{row[0]}}/vote_up">Like</a></button>
                 <button type="submit"><a href="/answer/{{row[0]}}/vote_down">Dislike</a></button>
+                {{ row[4] }}
             </li>
             {% if row[5] != ''%}
                 <img src="../static/{{ row[5] }}" height="200">
             {% endif %}
         {% endfor %}
     </ul>
+    </div>
+    </div>
 </body>
 </html>

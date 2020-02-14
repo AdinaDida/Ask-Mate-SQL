@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Question</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="css/formular.css")}}">
 </head>
 <body>
+    <div class="banner-img">
+    <div class="banner-text">
     <form action="/add-question" method="POST" enctype="multipart/form-data">
         <label for="title">Question:</label><br>
         <textarea id="title" name="title" placeholder="Type the question here!" required></textarea><br>
@@ -16,5 +19,7 @@
 
         <button type="submit">Submit</button>
     </form>
+    </div>
+    </div>
 </body>
 </html>

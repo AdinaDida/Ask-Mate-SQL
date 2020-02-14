@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Answer</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="css/formular.css")}}">
 </head>
 <body>
+    <div class="banner-img">
+    <div class="banner-text">
     <form action="/question/{{question_id}}/new-answer" method="POST" enctype="multipart/form-data">
         <label for="message">Your answer:</label>
         <textarea id="message" name="message" placeholder="Type your answer here!" required></textarea><br><br>
@@ -14,5 +17,7 @@
 
         <button type="submit">Submit</button>
     </form>
+    </div>
+    </div>
 </body>
 </html>
