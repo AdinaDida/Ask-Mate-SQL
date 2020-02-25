@@ -13,24 +13,24 @@
     <h1>Ask Mate</h1>
     <button type="submit" id="ask_button"><a href="/add-question">Ask a question</a></button>
     <br><br>
-    <form action="/list" method="POST">
-        <label for="sorting">Select sorting type by:</label>
-        <select id="sorting" name="sorting">
-            <option value="title">Title</option>
-            <option value="submission_time">Submission Time</option>
-            <option value="message">Message</option>
-            <option value="view_number">Number of Views</option>
-            <option value="vote_number">Number of Votes</option>
-        </select>
-        <br><br>
-        <label for="sort">Sorting Order:</label>
-        <select id="sort" name="sort">
-            <option value="ascending">Ascending</option>
-            <option value="descending">Descending</option>
-        </select>
-        <button type="submit">Sort</button>
-        <br><br>
+    <form action="/list" method="get">
+        <label for="sort">Sort Questions:</label>
+        <select id="sort" name="order_by">
+            {% for elem in ['title', 'submission_time', 'message', 'view_number', 'vote_number'] %}
+            <option value="{{ elem }}" {{ 'selected' if elem == order_by }}>{{ elem }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="direction">Direction:</label>
+        <select id="direction" name="order_direction">
+            {% for elem in ['asc', 'desc'] %}
+            <option value="{{ elem }}" {{ 'selected' if elem == order_direction }}>{{ elem }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <input type="submit" value="list">
     </form>
+    <br>
     <table>
         <thead>
             <tr>
