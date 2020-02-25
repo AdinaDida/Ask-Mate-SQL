@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Ask Mate Application</h1>
+
+    <a href="/list">See all questions</a><br>
+
+    <h2>Latest Questions</h2>
+
+    {% for question in questions %}
+        <p>{{ question['title'] }}</p>
+    {% endfor %}
+{% endblock %}

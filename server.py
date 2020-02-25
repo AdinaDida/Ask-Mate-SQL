@@ -14,6 +14,11 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
+def route_index():
+    questions = data_manager.display_latest_five_questions()
+    return render_template('index.html', questions=questions)
+
+
 @app.route('/list', methods=['GET', 'POST'])
 def route_list():
     questions_list = conection.get_all_questions()

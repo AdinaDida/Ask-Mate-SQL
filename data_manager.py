@@ -1,5 +1,17 @@
 import conection
 from operator import itemgetter
+import database_common
+
+@database_common.connection_handler
+def display_latest_five_questions(cursor):
+    cursor.execute("""
+                    SELECT title FROM question
+                    ORDER BY submission_time DESC 
+                    LIMIT 5;
+                    """)
+    questions = cursor.fetchall()
+    return questions
+
 
 
 def sort_list(type_, direction=False):
