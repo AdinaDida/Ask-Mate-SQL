@@ -12,16 +12,24 @@ def display_latest_five_questions(cursor):
     questions = cursor.fetchall()
     return questions
 
+@database_common.connection_handler
+def display_questions(cursor):
+    cursor.execute("""
+                    SELECT * FROM question
+                    ORDER BY submission_time DESC;
+                    """)
+    all_questions = cursor.fetchall()
+    return all_questions
 
+@database_common.connection_handler
+def question(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE id = %question_ids;
+                    """)
+    question = cursor.fetchall()
+    return question
 
-def sort_list(type_, direction=False):
-    all_questions = conection.get_all_questions()
-    all_questions_sorted = convert_to_int(all_questions)
-    if direction == "ascending":
-        all_questions_sorted = sorted(all_questions_sorted, key=itemgetter(type_))
-    if direction == "descending":
-        all_questions_sorted = sorted(all_questions_sorted, key=itemgetter(type_), reverse=True)
-    return all_questions_sorted
 
 
 def convert_to_int(list_of_dicts):

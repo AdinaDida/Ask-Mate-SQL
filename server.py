@@ -21,7 +21,7 @@ def route_index():
 
 @app.route('/list', methods=['GET', 'POST'])
 def route_list():
-    questions_list = conection.get_all_questions()
+    questions_list = data_manager.display_questions()
     if request.method == 'POST':
         type_ = request.form['sorting']
         direction = request.form['sort']
@@ -32,15 +32,15 @@ def route_list():
 
 @app.route('/question/<question_id>')
 def route_question(question_id):
-    questions_list = conection.get_all_questions()
-    question_dict = questions_list[int(question_id)]
-    question = question_dict['title']
-    question_message_dict = questions_list[int(question_id)]
-    question_message = question_message_dict['message']
-    image = url_for('static', filename=question_dict['image'])
-    answer_images = conection.all_answer_content(question_id)
-    return render_template('question.html', question_id=question_id, question=question,
-                           question_message=question_message, image=image, answer_images=answer_images)
+    question_data = data_manager.question(question_id)
+    # question_dict = questions_list[int(question_id)]
+    # question = question_dict['title']
+    # question_message_dict = questions_list[int(question_id)]
+    # question_message = question_message_dict['message']
+    # image = url_for('static', filename=question_dict['image'])
+    # answer_images = conection.all_answer_content(question_id)
+    return render_template('question.html', question_id=question_id, question=question_data['title'],
+                           question_message=question['message'])
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
