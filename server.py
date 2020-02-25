@@ -35,8 +35,9 @@ def route_list():
 @app.route('/question/<question_id>')
 def route_question(question_id):
     question_data = data_manager.question(question_id)
+    answers = data_manager.get_answers_by_question_id(question_id)
     return render_template('question.html', question_id=question_id, question=question_data['title'],
-                           question_message=question_data['message'])
+                           question_message=question_data['message'], answer_images=answers)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -64,26 +65,20 @@ def route_add_question():
 
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def route_add_answer(question_id):
-    answer_id = conection.get_latest_id('sample_data/answer.csv')
     if request.method == 'POST':
-        answer_id += 1
-        answer_id = str(answer_id)
-        submission_time = int(time.time())
+        submission_time = datetime.datetime.now()
         vote_number = 0
         message = request.form['message']
-        if 'image_file' not in request.files:
-            return redirect(url_for('route_question', question_id=question_id))
+
         file = request.files['image_file']
-        if file.filename != '':
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                image = file.filename
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            image = file.filename
         else:
             image = ""
-        new_answer = [answer_id, submission_time,
-                      vote_number, question_id, message, image]
-        conection.add_answer(new_answer)
+
+        data_manager.add_answer(submission_time, vote_number, question_id, message, image)
         return redirect(url_for('route_question', question_id=question_id))
     return render_template('new_answer.html', question_id=question_id)
 

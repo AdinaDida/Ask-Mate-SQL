@@ -70,6 +70,31 @@ def get_id_of_question_by_time(cursor, submission_time):
     return question_id['id']
 
 
+@database_common.connection_handler
+def add_answer(cursor, submission_time, vote_number, question_id, message, image):
+    cursor.execute("""
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image)
+                    VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s);
+                    """,
+                   {'submission_time': submission_time,
+                    'vote_number': vote_number,
+                    'question_id': question_id,
+                    'message': message,
+                    'image': image})
+
+
+@database_common.connection_handler
+def get_answers_by_question_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT vote_number, message, image FROM answer
+                    WHERE question_id = %(question_id)s;
+                    """,
+                   {'question_id': question_id})
+    answers = cursor.fetchall()
+    print(answers)
+    return answers
+
+
 def convert_to_int(list_of_dicts):
     for dictionary in list_of_dicts:
         dictionary['submission_time'] = int(dictionary['submission_time'])
