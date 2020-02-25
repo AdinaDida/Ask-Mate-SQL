@@ -25,7 +25,7 @@ def display_questions(cursor):
 def question(cursor, question_id):
     cursor.execute("""
                     SELECT * FROM question
-                    WHERE id = %question_ids;
+                    WHERE id = %(question_id)s;
                     """)
     question = cursor.fetchall()
     return question
