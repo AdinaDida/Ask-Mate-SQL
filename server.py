@@ -4,6 +4,7 @@ import conection
 import time
 import os
 from werkzeug.utils import secure_filename
+import datetime
 
 UPLOAD_FOLDER = 'static'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
@@ -34,39 +35,28 @@ def route_list():
 @app.route('/question/<question_id>')
 def route_question(question_id):
     question_data = data_manager.question(question_id)
-
-    # question_dict = questions_list[int(question_id)]
-    # question = question_dict['title']
-    # question_message_dict = questions_list[int(question_id)]
-    # question_message = question_message_dict['message']
-    # image = url_for('static', filename=question_dict['image'])
-    # answer_images = conection.all_answer_content(question_id)
     return render_template('question.html', question_id=question_id, question=question_data['title'],
                            question_message=question_data['message'])
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
-    id_ = conection.get_latest_id("sample_data/question.csv")
     if request.method == 'POST':
-        id_ += 1
-        submission_time = int(time.time())
+        submission_time = datetime.datetime.now()
         view_number = 1
         vote_number = 0
         title = request.form['title']
         message = request.form['message']
-        if 'image_file' not in request.files:
-            return redirect(url_for('route_question', question_id=id_))
+
         file = request.files['image_file']
-        if file.filename == '':
-            return redirect(url_for('route_question', question_id=id_))
+
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         image = file.filename
-        new_question = [id_, submission_time, view_number,
-                        vote_number, title, message, image]
-        conection.add_question(new_question)
+
+        data_manager.add_question(submission_time, view_number, vote_number, title, message, image)
+        id_ = data_manager.get_id_of_question_by_time(submission_time)
 
         return redirect(url_for('route_question', question_id=id_))
     return render_template('add_question.html')
