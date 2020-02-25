@@ -95,6 +95,19 @@ def get_answers_by_question_id(cursor, question_id):
     return answers
 
 
+@database_common.connection_handler
+def update_question(cursor, question_id, submission_time, title, message):
+    cursor.execute("""
+                    UPDATE question
+                    SET submission_time = %(submission_time)s, title = %(title)s, message = %(message)s
+                    WHERE id = %(question_id)s;
+                    """,
+                   {'question_id': question_id,
+                    'submission_time': submission_time,
+                    'title': title,
+                    'message': message})
+
+
 def convert_to_int(list_of_dicts):
     for dictionary in list_of_dicts:
         dictionary['submission_time'] = int(dictionary['submission_time'])

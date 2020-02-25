@@ -85,25 +85,16 @@ def route_add_answer(question_id):
 
 @app.route('/question/<int:question_id>/edit', methods=["GET", "POST"])
 def route_update_question(question_id):
-    questions_list = conection.convert_to_list()
-    old_question = questions_list[question_id]
-    questions_list.remove(old_question)
+    questions_list = data_manager.question(question_id)
+
     if request.method == 'POST':
-        id_ = question_id
-        submission_time = int(time.time())
-        view_number = 1
-        vote_number = 0
+        submission_time = datetime.datetime.now()
         title = request.form['title']
         message = request.form['message']
-        image = ''
-        question_updated = [id_, submission_time, view_number,
-                            vote_number, title, message, image]
-        questions_list.insert(question_id, question_updated)
-        questions_list.insert(0, ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"])
-        conection.update_question(questions_list)
-        return redirect(url_for('route_question', question_id=id_))
-    return render_template('update_question.html', question_id=question_id, message=old_question[5],
-                           title=old_question[4])
+        data_manager.update_question(question_id, submission_time, title, message)
+        return redirect(url_for('route_question', question_id=question_id))
+    return render_template('update_question.html', question_id=question_id, message=questions_list['message'],
+                           title=questions_list['title'])
 
 
 @app.route('/question/<question_id>/delete')
