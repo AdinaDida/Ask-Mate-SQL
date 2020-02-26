@@ -108,6 +108,24 @@ def update_question(cursor, question_id, submission_time, title, message):
                     'message': message})
 
 
+@database_common.connection_handler
+def search_questions_by_pattern(cursor, pattern):
+    cursor.execute(f"""
+                    SELECT title, id FROM question
+                    WHERE title LIKE '%{pattern}%' 
+                    OR title LIKE '%{pattern.capitalize()}%'
+                    OR title LIKE '%{pattern.upper()}%'
+                    OR title LIKE '%{pattern.lower()}%'
+                    OR message LIKE '%{pattern}%' 
+                    OR message LIKE '%{pattern.capitalize()}%'
+                    OR message LIKE '%{pattern.upper()}%'
+                    OR message LIKE '%{pattern.lower()}%';
+                    """)
+    result = cursor.fetchall()
+    number = cursor.rowcount
+    return result, number
+
+
 def convert_to_int(list_of_dicts):
     for dictionary in list_of_dicts:
         dictionary['submission_time'] = int(dictionary['submission_time'])

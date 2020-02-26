@@ -15,9 +15,17 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
+@app.route('/search')
 def route_index():
     questions = data_manager.display_latest_five_questions()
-    return render_template('index.html', questions=questions)
+    query = False
+    if request.args:
+        quest = request.args.get('q')
+        result = data_manager.search_questions_by_pattern(quest)[0]
+        count = data_manager.search_questions_by_pattern(quest)[1]
+        query = True
+        return render_template('index.html', questions=result, query=query, quest=quest, count=count)
+    return render_template('index.html', questions=questions, query=query)
 
 
 @app.route('/list')
