@@ -44,9 +44,10 @@ def route_list():
 def route_question(question_id):
     question_data = data_manager.question(question_id)
     answers = data_manager.get_answers_by_question_id(question_id)
-    print(answers)
+    comment = data_manager.get_comment_by_question(question_id)
+    print(comment)
     return render_template('question.html', question_id=question_id, question=question_data['title'],
-                           question_message=question_data['message'], answer_images=answers)
+                           question_message=question_data['message'], answer_images=answers, comment=comment)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -205,6 +206,14 @@ def edit_answer(answer_id):
 
     return render_template('update_answer.html', answer_id=answer_id, message=answers_list)
 
+@app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
+def route_add_comment(question_id):
+    if request.method == 'POST':
+        submission_time = datetime.datetime.now()
+        message = request.form['message']
+        data_manager.add_comment(submission_time,question_id, message)
+        return redirect(url_for('route_question', question_id=question_id))
+    return render_template('comment_question.html', question_id=question_id)
 
 def allowed_file(filename):
     return '.' in filename and \

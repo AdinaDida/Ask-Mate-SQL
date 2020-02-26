@@ -128,6 +128,28 @@ def get_answers_by_answer_id(cursor, answer_id):
     answers = cursor.fetchone()
     return answers
 
+
+@database_common.connection_handler
+def add_comment(cursor, submission_time,question_id, message):
+    cursor.execute("""
+                        INSERT INTO comment(submission_time, question_id, message)
+                        VALUES (%(submission_time)s, %(question_id)s, %(message)s);
+                        """,
+                   {'submission_time': submission_time,
+                    'question_id': question_id,
+                    'message': message})
+
+@database_common.connection_handler
+def get_comment_by_question(cursor, question_id):
+    cursor.execute("""
+                    SELECT submission_time, message FROM comment
+                    WHERE question_id = %(question_id)s;
+                    """,
+                   {'question_id': question_id})
+    comment = cursor.fetchall()
+    return comment
+
+
 @database_common.connection_handler
 def search_questions_by_pattern(cursor, pattern):
     cursor.execute(f"""
