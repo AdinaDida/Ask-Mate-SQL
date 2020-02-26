@@ -44,6 +44,7 @@ def route_list():
 def route_question(question_id):
     question_data = data_manager.question(question_id)
     answers = data_manager.get_answers_by_question_id(question_id)
+    print(answers)
     return render_template('question.html', question_id=question_id, question=question_data['title'],
                            question_message=question_data['message'], answer_images=answers)
 
@@ -190,6 +191,19 @@ def vote_down_answer(answer_id):
             id_ = row[3]
     conection.update_answer(all_answers)
     return redirect(url_for('route_question', question_id=id_))
+
+
+@app.route("/answer/<int:answer_id>/edit", methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    answers_list = data_manager.get_answers_by_answer_id(answer_id)
+
+    if request.method == 'POST':
+        submission_time = datetime.datetime.now()
+        message = request.form['message']
+        data_manager.edit_answer(answer_id, submission_time, message)
+        return redirect(url_for('route_question',question_id=answers_list['question_id']))
+
+    return render_template('update_answer.html', answer_id=answer_id, message=answers_list)
 
 
 def allowed_file(filename):

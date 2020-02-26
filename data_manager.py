@@ -1,4 +1,4 @@
-import conection
+# import conection
 from operator import itemgetter
 import database_common
 
@@ -86,12 +86,11 @@ def add_answer(cursor, submission_time, vote_number, question_id, message, image
 @database_common.connection_handler
 def get_answers_by_question_id(cursor, question_id):
     cursor.execute("""
-                    SELECT vote_number, message, image FROM answer
+                    SELECT id, vote_number, message, image FROM answer
                     WHERE question_id = %(question_id)s;
                     """,
                    {'question_id': question_id})
     answers = cursor.fetchall()
-    print(answers)
     return answers
 
 
@@ -107,6 +106,27 @@ def update_question(cursor, question_id, submission_time, title, message):
                     'title': title,
                     'message': message})
 
+@database_common.connection_handler
+def edit_answer(cursor, answer_id, submission_time, message):
+    cursor.execute("""
+                    UPDATE answer
+                    SET submission_time = %(submission_time)s, message = %(message)s
+                    WHERE id = %(answer_id)s;
+                    """,
+                   {'answer_id': answer_id,
+                    'submission_time': submission_time,
+                    'message': message})
+
+
+@database_common.connection_handler
+def get_answers_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT vote_number, message, image, question_id FROM answer
+                    WHERE id = %(answer_id)s;
+                    """,
+                   {'answer_id': answer_id})
+    answers = cursor.fetchone()
+    return answers
 
 @database_common.connection_handler
 def search_questions_by_pattern(cursor, pattern):

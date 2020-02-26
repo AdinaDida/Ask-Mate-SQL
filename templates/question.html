@@ -20,10 +20,11 @@
     <h2>VOTES & ANSWERS:</h2>
     <ul>
         {% for row in answer_images %}
-            <li><button type="submit"><a href="/answer/{{row[0]}}/delete">Delete </a></button>
+            <li><button type="submit"><a href="/answer/{{row['id']}}/edit">Edit answer</a></button>
+                <button type="submit"><a href="/answer/{{row['id']}}/delete">Delete </a></button>
                 {{ row['vote_number'] }}
-                <button type="submit"><a href="/answer/{{row[0]}}/vote_up">Like</a></button>
-                <button type="submit"><a href="/answer/{{row[0]}}/vote_down">Dislike</a></button>
+                <button type="submit"><a href="/answer/{{row['id']}}/vote_up">Like</a></button>
+                <button type="submit"><a href="/answer/{{row['id']}}/vote_down">Dislike</a></button>
                 {{ row['message'] }}
                 <br><br>
             </li>

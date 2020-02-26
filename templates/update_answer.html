@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Answer</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="css/formular.css")}}">
+</head>
+<body>
+    <div class="banner-img">
+    <div class="banner-text">
+    <h1>Update Answer</h1><br>
+    <form action="/answer/{{answer_id}}/edit" method="POST">
+        <label for="message">Edit answer:</label><br><br>
+        <textarea id="message" rows="10" cols="100" name="message" required>{{message['message']}}</textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+    </div>
+    </div>
+</body>
+</html>
