@@ -10,7 +10,7 @@
     <div class="banner-text">
     <h1>{{ question }}</h1>
     <h2>{{ question_message }}</h2>
-    <button type="submit"><a href="/question/{{question_id}}/new-comment">Comment question </a></button>
+    <button type="submit"><a href="/question/{{question_id}}/new-comment">Add comment </a></button>
     <img src="{{ image }}" id="question_image" height="400" alt="No image for this question!">
     <br><br>
     <button type="submit"><a href="/question/{{question_id}}/vote_up">Like</a></button>
@@ -31,12 +31,20 @@
                 <button type="submit"><a href="/answer/{{row['id']}}/vote_up">Like</a></button>
                 <button type="submit"><a href="/answer/{{row['id']}}/vote_down">Dislike</a></button>
                 {{ row['message'] }}
+
+                <button type="submit"><a href="/answer/{{row['id']}}/new-comment">Add comment </a></button>
+                {% for elem in answer_comment %}
+                    {% if elem['answer_id'] == row['id']%}
+                        {{ elem['message'], elem['submission_time'] }}
+                    {% endif %}
+                {% endfor %}
                 <br><br>
             </li>
             {% if row['image'] != ''%}
                 <img src="../static/{{ row[5] }}" id="answer_image" height="200">
             {% endif %}
         {% endfor %}
+
     </ul>
     </div>
     </div>

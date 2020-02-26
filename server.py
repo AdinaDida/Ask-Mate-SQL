@@ -44,10 +44,12 @@ def route_list():
 def route_question(question_id):
     question_data = data_manager.question(question_id)
     answers = data_manager.get_answers_by_question_id(question_id)
-    comment = data_manager.get_comment_by_question(question_id)
-    print(comment)
+    comment_question = data_manager.get_comment_by_question(question_id)
+    comment_answer = data_manager.get_comment_by_answer()
     return render_template('question.html', question_id=question_id, question=question_data['title'],
-                           question_message=question_data['message'], answer_images=answers, comment=comment)
+                           question_message=question_data['message'],
+                           answer_images=answers, comment=comment_question,
+                           answer_comment=comment_answer)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -214,6 +216,18 @@ def route_add_comment(question_id):
         data_manager.add_comment(submission_time,question_id, message)
         return redirect(url_for('route_question', question_id=question_id))
     return render_template('comment_question.html', question_id=question_id)
+
+
+@app.route("/answer/<answer_id>/new-comment", methods=['GET', 'POST'])
+def add_comment_to_answer(answer_id):
+    if request.method == 'POST':
+        submission_time = datetime.datetime.now()
+        message = request.form['message']
+        data_manager.add_comment_to_answer(submission_time,answer_id, message)
+        question_id = data_manager.get_question_by_answer(answer_id)
+        return redirect('/question/' + question_id)
+    return render_template('comment_answer.html', answer_id=answer_id)
+
 
 def allowed_file(filename):
     return '.' in filename and \

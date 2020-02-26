@@ -149,6 +149,34 @@ def get_comment_by_question(cursor, question_id):
     comment = cursor.fetchall()
     return comment
 
+@database_common.connection_handler
+def add_comment_to_answer(cursor, submission_time,answer_id, message):
+    cursor.execute("""
+                        INSERT INTO comment(submission_time, answer_id, message)
+                        VALUES (%(submission_time)s, %(answer_id)s, %(message)s);
+                        """,
+                   {'submission_time': submission_time,
+                    'answer_id': answer_id,
+                    'message': message})
+
+@database_common.connection_handler
+def get_comment_by_answer(cursor):
+    cursor.execute("""
+                    SELECT submission_time, message, answer_id FROM comment
+                    WHERE answer_id IS NOT NULL;
+                    """)
+    comment = cursor.fetchone()
+    return comment
+
+@database_common.connection_handler
+def get_question_by_answer(cursor, answer_id):
+    cursor.execute("""
+                    SELECT question_id FROM answer
+                    WHERE id=%(answer_id)s;
+                    """,
+                   {'answer_id': answer_id})
+    return str(cursor.fetchone()['question_id'])
+
 
 @database_common.connection_handler
 def search_questions_by_pattern(cursor, pattern):
