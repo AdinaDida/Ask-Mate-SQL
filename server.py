@@ -1,7 +1,5 @@
 from flask import Flask, render_template, redirect, request, url_for
 import data_manager
-import conection
-import time
 import os
 from werkzeug.utils import secure_filename
 import datetime
@@ -55,7 +53,7 @@ def route_question(question_id):
 @app.route('/add-question', methods=['GET', 'POST'])
 def route_add_question():
     if request.method == 'POST':
-        submission_time = datetime.datetime.now()
+        submission_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         view_number = 1
         vote_number = 0
         title = request.form['title']
@@ -78,7 +76,7 @@ def route_add_question():
 @app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
 def route_add_answer(question_id):
     if request.method == 'POST':
-        submission_time = datetime.datetime.now()
+        submission_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         vote_number = 0
         message = request.form['message']
 
@@ -100,7 +98,7 @@ def route_update_question(question_id):
     questions_list = data_manager.question(question_id)
 
     if request.method == 'POST':
-        submission_time = datetime.datetime.now()
+        submission_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         title = request.form['title']
         message = request.form['message']
         data_manager.update_question(question_id, submission_time, title, message)
@@ -161,7 +159,7 @@ def edit_answer(answer_id):
     answers_list = data_manager.get_answers_by_answer_id(answer_id)
     print(answers_list)
     if request.method == 'POST':
-        submission_time = datetime.datetime.now()
+        submission_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         message = request.form['message']
         data_manager.edit_answer(answer_id, submission_time, message)
         return redirect(url_for('route_question', question_id=answers_list['question_id']))
@@ -173,7 +171,7 @@ def edit_comment(comment_id):
     comment_list = data_manager.get_comment_by_comment_id(comment_id)
     print(comment_list)
     if request.method == 'POST':
-        submission_time = datetime.datetime.now()
+        submission_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         message = request.form['message']
         data_manager.edit_comment(comment_id, submission_time, message)
         answer_id = data_manager.get_answer_id_by_comment(comment_id)
@@ -186,7 +184,7 @@ def edit_comment(comment_id):
 @app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
 def route_add_comment(question_id):
     if request.method == 'POST':
-        submission_time = datetime.datetime.now()
+        submission_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         message = request.form['message']
         data_manager.add_comment(submission_time, question_id, message)
         return redirect(url_for('route_question', question_id=question_id))
@@ -196,7 +194,7 @@ def route_add_comment(question_id):
 @app.route("/answer/<answer_id>/new-comment", methods=['GET', 'POST'])
 def add_comment_to_answer(answer_id):
     if request.method == 'POST':
-        submission_time = datetime.datetime.now()
+        submission_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         message = request.form['message']
         data_manager.add_comment_to_answer(submission_time, answer_id, message)
         question_id = data_manager.get_question_by_answer(answer_id)
