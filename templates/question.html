@@ -34,12 +34,17 @@
                     {{ row['message'] }}
 
                     <button type="submit"><a href="/answer/{{ row['id'] }}/new-comment">Add comment </a></button>
+                    <div>
+                    <p>Comment(s):</p>
+                        <ul>
+                            {% for elem in answer_comment %}
+                                {% if elem['answer_id'] == row['id'] %}
+                            <li>{{ elem['message']}}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-                    {% for elem in answer_comment %}
-                            {% if elem['answer_id'] == row['id'] %}
-                                {{ elem['message']}}
-                            {% endif %}
-                    {% endfor %}
                     <br><br>
                 </li>
                 {% if row['image'] != '' %}

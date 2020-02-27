@@ -16,15 +16,17 @@
         <h3>{{ count }} result(s)</h3>
         {% if questions %}
             {% for question in questions%}
-            <p><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></p>
+            <p><a href="/question/{{question['id']}}">{{ question['title'] }}</a></p>
             {% endfor %}
         {% else %}
             <p>Database has no results for "<mark>{{ quest }}</mark>"!</p>
         {% endif %}
     {% else %}
         <h2>Latest Questions</h2>
-        {% for question in questions %}
-            <p>{{ question['title'] }}</p>
-        {% endfor %}
+        {% if questions %}
+            {% for question in questions %}
+                <p><a href="/question/{{question['id']}}">{{ question['title'] }}</a></p>
+            {% endfor %}
+        {% endif %}
     {% endif %}
 {% endblock %}

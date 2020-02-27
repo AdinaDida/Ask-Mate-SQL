@@ -6,7 +6,7 @@ import database_common
 @database_common.connection_handler
 def display_latest_five_questions(cursor):
     cursor.execute("""
-                    SELECT title FROM question
+                    SELECT id,title FROM question
                     ORDER BY submission_time DESC 
                     LIMIT 5;
                     """)
