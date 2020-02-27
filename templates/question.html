@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Question</title>
-    {#    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="css/question.css")}}">#}
+        <link rel="stylesheet" type="text/css" href="{{url_for("static",filename="css/question.css")}}">
 </head>
 <body>
 <div class="banner-img">
@@ -11,7 +11,7 @@
         <h1>{{ question }}</h1>
         <h2>{{ question_message }}</h2>
         <button type="submit"><a href="/question/{{ question_id }}/new-comment">Add comment </a></button>
-        <img src="{{ image }}" id="question_image" height="400" alt="No image for this question!">
+        <img src="/static/{{ image }}" id="question_image" height="400" alt="No image for this question!">
         <br><br>
         <button type="submit"><a href="/question/{{ question_id }}/vote_up">Like</a></button>
         <button type="submit"><a href="/question/{{ question_id }}/vote_down">Dislike</a></button>
@@ -41,8 +41,10 @@
                     <button type="submit"><a href="/answer/{{ row['id'] }}/vote_up">Like</a></button>
                     <button type="submit"><a href="/answer/{{ row['id'] }}/vote_down">Dislike</a></button>
                     {{ row['message'] }}
-
                     <button type="submit"><a href="/answer/{{ row['id'] }}/new-comment">Add comment </a></button>
+                    {% if row['image'] != '' %}
+                        <img src="../static/{{ row['image'] }}" id="answer_image" height="200">
+                    {% endif %}
                     <div>
                     <p>Comment(s):</p>
                         <ul>
@@ -59,9 +61,6 @@
 
                     <br><br>
                 </li>
-                {% if row['image'] != '' %}
-                    <img src="../static/{{ row[5] }}" id="answer_image" height="200">
-                {% endif %}
             {% endfor %}
 
         </ul>

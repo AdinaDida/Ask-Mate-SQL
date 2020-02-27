@@ -45,7 +45,7 @@ def route_question(question_id):
     comment_question = data_manager.get_comment_by_question(question_id)
     comment_answer = data_manager.get_comment_by_answer()
     return render_template('question.html', question_id=question_id, question=question_data['title'],
-                           question_message=question_data['message'],
+                           question_message=question_data['message'], image=question_data['image'],
                            answer_images=answers, comment=comment_question,
                            answer_comment=comment_answer)
 
