@@ -106,6 +106,7 @@ def update_question(cursor, question_id, submission_time, title, message):
                     'title': title,
                     'message': message})
 
+
 @database_common.connection_handler
 def edit_answer(cursor, answer_id, submission_time, message):
     cursor.execute("""
@@ -130,7 +131,7 @@ def get_answers_by_answer_id(cursor, answer_id):
 
 
 @database_common.connection_handler
-def add_comment(cursor, submission_time,question_id, message):
+def add_comment(cursor, submission_time, question_id, message):
     cursor.execute("""
                         INSERT INTO comment(submission_time, question_id, message)
                         VALUES (%(submission_time)s, %(question_id)s, %(message)s);
@@ -138,6 +139,7 @@ def add_comment(cursor, submission_time,question_id, message):
                    {'submission_time': submission_time,
                     'question_id': question_id,
                     'message': message})
+
 
 @database_common.connection_handler
 def get_comment_by_question(cursor, question_id):
@@ -149,8 +151,9 @@ def get_comment_by_question(cursor, question_id):
     comment = cursor.fetchall()
     return comment
 
+
 @database_common.connection_handler
-def add_comment_to_answer(cursor, submission_time,answer_id, message):
+def add_comment_to_answer(cursor, submission_time, answer_id, message):
     cursor.execute("""
                         INSERT INTO comment(submission_time, answer_id, message)
                         VALUES (%(submission_time)s, %(answer_id)s, %(message)s);
@@ -158,6 +161,7 @@ def add_comment_to_answer(cursor, submission_time,answer_id, message):
                    {'submission_time': submission_time,
                     'answer_id': answer_id,
                     'message': message})
+
 
 @database_common.connection_handler
 def get_comment_by_answer(cursor):
@@ -167,6 +171,7 @@ def get_comment_by_answer(cursor):
                     """)
     comment = cursor.fetchall()
     return comment
+
 
 @database_common.connection_handler
 def get_question_by_answer(cursor, answer_id):
@@ -196,14 +201,14 @@ def search_questions_by_pattern(cursor, pattern):
     return result, number
 
 
-# @database_common.connection_handler
-# def delete_question(cursor, question_id):
-#     cursor.execute("""
-#                     SELECT question
-#                     FROM
-#
-#                     """,
-#                    {'question_id':question_id})
+@database_common.connection_handler
+def delete_question(cursor, question_id):
+    cursor.execute("""
+                    DELETE FROM question
+                    WHERE id = %(question_id)s;
+                    """,
+                   {'question_id': question_id})
+
 
 @database_common.connection_handler
 def vote_up_question(cursor, question_id):
@@ -211,7 +216,8 @@ def vote_up_question(cursor, question_id):
                     UPDATE question
                     SET vote_number = (vote_number + 1)
                     WHERE id = %(question_id)s;""",
-                   {'question_id':question_id} )
+                   {'question_id': question_id})
+
 
 @database_common.connection_handler
 def vote_down_question(cursor, question_id):
@@ -219,7 +225,7 @@ def vote_down_question(cursor, question_id):
                     UPDATE question
                     SET vote_number = (vote_number - 1)
                     WHERE id = %(question_id)s;""",
-                   {'question_id':question_id} )
+                   {'question_id': question_id})
 
 
 @database_common.connection_handler
@@ -228,7 +234,8 @@ def vote_up_answer(cursor, answer_id):
                     UPDATE answer
                     SET vote_number = (vote_number + 1)
                     WHERE id = %(answer_id)s;""",
-                   {'answer_id':answer_id} )
+                   {'answer_id': answer_id})
+
 
 @database_common.connection_handler
 def vote_down_answer(cursor, answer_id):
@@ -236,7 +243,8 @@ def vote_down_answer(cursor, answer_id):
                     UPDATE answer
                     SET vote_number = (vote_number - 1)
                     WHERE id = %(answer_id)s;""",
-                   {'answer_id':answer_id} )
+                   {'answer_id': answer_id})
+
 
 def convert_to_int(list_of_dicts):
     for dictionary in list_of_dicts:
