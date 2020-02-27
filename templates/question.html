@@ -3,50 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Question</title>
-{#    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="css/question.css")}}">#}
+    {#    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="css/question.css")}}">#}
 </head>
 <body>
-    <div class="banner-img">
+<div class="banner-img">
     <div class="banner-text">
-    <h1>{{ question }}</h1>
-    <h2>{{ question_message }}</h2>
-    <button type="submit"><a href="/question/{{question_id}}/new-comment">Add comment </a></button>
-    <img src="{{ image }}" id="question_image" height="400" alt="No image for this question!">
-    <br><br>
-    <button type="submit"><a href="/question/{{question_id}}/vote_up">Like</a></button>
-    <button type="submit"><a href="/question/{{question_id}}/vote_down">Dislike</a></button>
-    <button type="submit"><a href="/question/{{question_id}}/edit">Edit question</a></button>
-    <button type="submit"><a href="/question/{{question_id}}/new-answer">Add an answer</a></button>
-    <button type="submit"><a href="/question/{{question_id}}/delete">Delete </a></button>
-    {% for elem in comment %}
-        <h2>{{ elem['submission_time'] }}</h2>
-        <h2>{{ elem['message'] }}</h2>
-    {% endfor %}
-    <h2>VOTES & ANSWERS:</h2>
-    <ul>
-        {% for row in answer_images %}
-            <li><button type="submit"><a href="/answer/{{row['id']}}/edit">Edit answer</a></button>
-                <button type="submit"><a href="/answer/{{row['id']}}/delete">Delete </a></button>
-                {{ row['vote_number'] }}
-                <button type="submit"><a href="/answer/{{row['id']}}/vote_up">Like</a></button>
-                <button type="submit"><a href="/answer/{{row['id']}}/vote_down">Dislike</a></button>
-                {{ row['message'] }}
-
-                <button type="submit"><a href="/answer/{{row['id']}}/new-comment">Add comment </a></button>
-                {% for elem in answer_comment %}
-                    {% if elem['answer_id'] == row['id']%}
-                        {{ elem['message'], elem['submission_time'] }}
-                    {% endif %}
-                {% endfor %}
-                <br><br>
-            </li>
-            {% if row['image'] != ''%}
-                <img src="../static/{{ row[5] }}" id="answer_image" height="200">
-            {% endif %}
+        <h1>{{ question }}</h1>
+        <h2>{{ question_message }}</h2>
+        <button type="submit"><a href="/question/{{ question_id }}/new-comment">Add comment </a></button>
+        <img src="{{ image }}" id="question_image" height="400" alt="No image for this question!">
+        <br><br>
+        <button type="submit"><a href="/question/{{ question_id }}/vote_up">Like</a></button>
+        <button type="submit"><a href="/question/{{ question_id }}/vote_down">Dislike</a></button>
+        <button type="submit"><a href="/question/{{ question_id }}/edit">Edit question</a></button>
+        <button type="submit"><a href="/question/{{ question_id }}/new-answer">Add an answer</a></button>
+        <button type="submit"><a href="/question/{{ question_id }}/delete">Delete </a></button>
+        {% for elem in comment %}
+            <h2>{{ elem['submission_time'] }}</h2>
+            <h2>{{ elem['message'] }}</h2>
         {% endfor %}
+        <h2>VOTES & ANSWERS:</h2>
+        <ul>
+            {% for row in answer_images %}
+                <li>
+                    <button type="submit"><a href="/answer/{{ row['id'] }}/edit">Edit answer</a></button>
+                    <button type="submit"><a href="/answer/{{ row['id'] }}/delete">Delete </a></button>
+                    {{ row['vote_number'] }}
+                    <button type="submit"><a href="/answer/{{ row['id'] }}/vote_up">Like</a></button>
+                    <button type="submit"><a href="/answer/{{ row['id'] }}/vote_down">Dislike</a></button>
+                    {{ row['message'] }}
 
-    </ul>
+                    <button type="submit"><a href="/answer/{{ row['id'] }}/new-comment">Add comment </a></button>
+
+                    {% for elem in answer_comment %}
+{#                        {% for element in elem %}#}
+                            {% if elem['answer_id'] == row['id'] %}
+                                {{ elem['message']}}
+                            {% endif %}
+{#                        {% endfor %}#}
+                    {% endfor %}
+                    <br><br>
+                </li>
+                {% if row['image'] != '' %}
+                    <img src="../static/{{ row[5] }}" id="answer_image" height="200">
+                {% endif %}
+            {% endfor %}
+
+        </ul>
     </div>
-    </div>
+</div>
 </body>
 </html>

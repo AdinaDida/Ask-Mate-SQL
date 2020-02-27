@@ -46,10 +46,11 @@ def route_question(question_id):
     answers = data_manager.get_answers_by_question_id(question_id)
     comment_question = data_manager.get_comment_by_question(question_id)
     comment_answer = data_manager.get_comment_by_answer()
+    print(comment_answer)
     return render_template('question.html', question_id=question_id, question=question_data['title'],
                            question_message=question_data['message'],
                            answer_images=answers, comment=comment_question,
-                           answer_comment=comment_answer)
+                           answer_comment=comment_answer, )
 
 
 @app.route('/add-question', methods=['GET', 'POST'])

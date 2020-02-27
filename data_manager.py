@@ -165,7 +165,7 @@ def get_comment_by_answer(cursor):
                     SELECT submission_time, message, answer_id FROM comment
                     WHERE answer_id IS NOT NULL;
                     """)
-    comment = cursor.fetchone()
+    comment = cursor.fetchall()
     return comment
 
 @database_common.connection_handler
