@@ -36,11 +36,9 @@
                     <button type="submit"><a href="/answer/{{ row['id'] }}/new-comment">Add comment </a></button>
 
                     {% for elem in answer_comment %}
-{#                        {% for element in elem %}#}
                             {% if elem['answer_id'] == row['id'] %}
                                 {{ elem['message']}}
                             {% endif %}
-{#                        {% endfor %}#}
                     {% endfor %}
                     <br><br>
                 </li>
