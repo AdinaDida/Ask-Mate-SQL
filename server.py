@@ -210,6 +210,7 @@ def get_tags(question_id):
     if request.method == 'POST':
         tags = request.form.getlist('check')
         new_tag = request.form['other']
+        print(new_tag)
         for tag in tags:
             data_manager.add_new_tag(tag, question_id)
         if new_tag != None:

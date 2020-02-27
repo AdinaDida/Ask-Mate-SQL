@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Question</title>
-        <link rel="stylesheet" type="text/css" href="{{url_for("static",filename="css/question.css")}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="css/question.css") }}">
 </head>
 <body>
 <div class="banner-img">
@@ -18,20 +18,23 @@
         <button type="submit"><a href="/question/{{ question_id }}/edit">Edit</a></button>
         <button type="submit"><a href="/question/{{ question_id }}/new-answer">Add an answer</a></button>
         <button type="submit"><a href="/question/{{ question_id }}/delete">Delete </a></button>
+
         <p>tags:</p>
         {% for elem in tags %}
-        {{ elem['name'] }}<button type="submit"><a href="/tag/{{ elem['id']}}/delete">delete </a></button>
+            {{ elem['name'] }}
+            <button type="submit"><a href="/tag/{{ elem['id'] }}/delete">delete </a></button>
         {% endfor %}
         <button type="submit"><a href="/question/{{ question_id }}/new-tag">add tag </a></button>
         <p>Comment(s):</p>
+
         {% for elem in comment %}
 
 
             <ul>
                 <li>
                     <h2>{{ elem['submission_time'] }}</h2>
-                    <button type="submit"><a href="/comment/{{elem['id']}}/delete">Delete </a></button>
-                    <button type="submit"><a href="/comment/{{elem['id']}}/edit">Edit</a></button>
+                    <button type="submit"><a href="/comment/{{ elem['id'] }}/delete">Delete </a></button>
+                    <button type="submit"><a href="/comment/{{ elem['id'] }}/edit">Edit</a></button>
                     {{ elem['message'] }}
                 </li>
             </ul>
@@ -51,14 +54,16 @@
                         <img src="../static/{{ row['image'] }}" id="answer_image" height="200">
                     {% endif %}
                     <div>
-                    <p>Comment(s):</p>
+                        <p>Comment(s):</p>
                         <ul>
                             {% for elem in answer_comment %}
                                 {% if elem['answer_id'] == row['id'] %}
-                            <li><button type="submit"><a href="/comment/{{elem['id']}}/delete">Delete </a></button>
-                                <button type="submit"><a href="/comment/{{elem['id']}}/edit">Edit</a></button>
-                                {{ elem['submission_time']}}
-                                {{elem['message']}}</li><br>
+                                    <li>
+                                        <button type="submit"><a href="/comment/{{ elem['id'] }}/delete">Delete </a>
+                                        </button>
+                                        <button type="submit"><a href="/comment/{{ elem['id'] }}/edit">Edit</a></button>
+                                        {{ elem['submission_time'] }}
+                                        {{ elem['message'] }}</li><br>
                                 {% endif %}
                             {% endfor %}
                         </ul>
