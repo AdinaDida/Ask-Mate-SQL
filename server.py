@@ -38,16 +38,17 @@ def route_list():
     return render_template('list.html', questions_list=questions_list)
 
 
-@app.route('/question/<question_id>')
+@app.route('/question/<int:question_id>')
 def route_question(question_id):
     question_data = data_manager.question(question_id)
     answers = data_manager.get_answers_by_question_id(question_id)
     comment_question = data_manager.get_comment_by_question(question_id)
     comment_answer = data_manager.get_comment_by_answer()
+    question_tags = data_manager.get_tags(question_id)
     return render_template('question.html', question_id=question_id, question=question_data['title'],
                            question_message=question_data['message'], image=question_data['image'],
                            answer_images=answers, comment=comment_question,
-                           answer_comment=comment_answer)
+                           answer_comment=comment_answer,tags = question_tags )
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -202,9 +203,34 @@ def add_comment_to_answer(answer_id):
     return render_template('comment_answer.html', answer_id=answer_id)
 
 
+@app.route("/question/<int:question_id>/new-tag", methods = ['GET', 'POST'])
+def get_tags(question_id):
+    question = data_manager.question(question_id)
+    all_tags = data_manager.create_tags()
+    if request.method == 'POST':
+        tags = request.form.getlist('check')
+        new_tag = request.form['other']
+        for tag in tags:
+            data_manager.add_new_tag(tag, question_id)
+        if new_tag != None:
+            data_manager.add_new_tag(new_tag, question_id)
+        return redirect(url_for('route_question', question_id=question_id))
+
+    return render_template('add_tag.html',question_id = question_id, tags = all_tags, question_title = question['title'], question_message = question['message'] )
+
+@app.route("/tag/<int:tag_id>/delete")
+def delete_tag(tag_id):
+    id_ = data_manager.get_question_by_tag(tag_id)
+    data_manager.delete_tag(tag_id)
+    print(id_)
+    return redirect(url_for('route_question', question_id=id_['question_id']))
+
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 
 if __name__ == '__main__':

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Tag</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for("static", filename="css/formular.css")}}">
+</head>
+<body>
+    <div class="banner-img">
+    <div class="banner-text">
+
+        {{ question_title }}
+    {{ question_message }}
+    <form action="/question/{{question_id}}/new-tag" method="POST" enctype="multipart/form-data">
+        <label for="message">Select a tag:</label><br><br>
+        {% for elem in tags %}
+        <input type="checkbox" name="check" id="{{ elem['name'] }}" value = "{{ elem['name'] }}">
+            <label for="{{ elem['name'] }}">{{ elem['name'] }}</label>
+        {% endfor %}
+        <input type ="checkbox" name = "other" id="other" value = "other" >
+            <label for="other"><textarea id = "other" name = "other"></textarea></label>
+
+        <button type="submit">Submit</button>
+    </form>
+    </div>
+    </div>
+</body>
+</html>

@@ -18,6 +18,11 @@
         <button type="submit"><a href="/question/{{ question_id }}/edit">Edit</a></button>
         <button type="submit"><a href="/question/{{ question_id }}/new-answer">Add an answer</a></button>
         <button type="submit"><a href="/question/{{ question_id }}/delete">Delete </a></button>
+        <p>tags:</p>
+        {% for elem in tags %}
+        {{ elem['name'] }}<button type="submit"><a href="/tag/{{ elem['id']}}/delete">delete </a></button>
+        {% endfor %}
+        <button type="submit"><a href="/question/{{ question_id }}/new-tag">add tag </a></button>
         <p>Comment(s):</p>
         {% for elem in comment %}
 
