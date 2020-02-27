@@ -112,19 +112,7 @@ def route_update_question(question_id):
 
 @app.route('/question/<question_id>/delete')
 def delete_question(question_id):
-    id_ = conection.get_latest_id("sample_data/question.csv")
-    questions_list = conection.convert_to_list()
-    question_to_delete = questions_list[int(question_id)]
-    print(question_to_delete)
-    questions_list.remove(question_to_delete)
-    print(questions_list)
-    questions_list.insert(0, ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"])
-    for i in range(1, int(id_)):
-        if int(questions_list[i + 1][0]) - int(questions_list[i][0]) != 1:
-            new_id = int(questions_list[i + 1][0])
-            new_id -= 1
-            questions_list[i + 1][0] = new_id
-    conection.update_question(questions_list)
+    data_manager.delete_question(question_id)
     return redirect('/list')
 
 
@@ -147,53 +135,27 @@ def delete_answer(answer_id):
 
 @app.route("/question/<question_id>/vote_up")
 def vote_up_question(question_id):
-    all_question = conection.convert_to_list()
-    for row in all_question:
-        if row[0] == question_id:
-            vote_number = int(row[3])
-            vote_number += 1
-            row[3] = vote_number
-    all_question.insert(0, ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"])
-    conection.update_question(all_question)
+    data_manager.vote_up_question(question_id)
     return redirect("/")
 
 
 @app.route("/question/<question_id>/vote_down")
 def vote_down_question(question_id):
-    all_question = conection.convert_to_list()
-    for row in all_question:
-        if row[0] == question_id:
-            vote_number = int(row[3])
-            vote_number -= 1
-            row[3] = vote_number
-    all_question.insert(0, ["id", "submission_time", "view_number", "vote_number", "title", "message", "image"])
-    conection.update_question(all_question)
+    data_manager.vote_down_question(question_id)
     return redirect("/")
 
 
 @app.route("/answer/<answer_id>/vote_up")
 def vote_up_answer(answer_id):
-    all_answers = conection.all_answer_contents()
-    for row in all_answers:
-        if row[0] == answer_id:
-            vote_number = int(row[2])
-            vote_number += 1
-            row[2] = vote_number
-            id_ = row[3]
-    conection.update_answer(all_answers)
+    id_ = data_manager.get_question_by_answer(answer_id)
+    data_manager.vote_up_answer(answer_id)
     return redirect(url_for('route_question', question_id=id_))
 
 
 @app.route("/answer/<answer_id>/vote_down")
 def vote_down_answer(answer_id):
-    all_answers = conection.all_answer_contents()
-    for row in all_answers:
-        if row[0] == answer_id:
-            vote_number = int(row[2])
-            vote_number -= 1
-            row[2] = vote_number
-            id_ = row[3]
-    conection.update_answer(all_answers)
+    id_ = data_manager.get_question_by_answer(answer_id)
+    data_manager.vote_down_answer(answer_id)
     return redirect(url_for('route_question', question_id=id_))
 
 

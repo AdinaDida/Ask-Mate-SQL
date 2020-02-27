@@ -196,6 +196,48 @@ def search_questions_by_pattern(cursor, pattern):
     return result, number
 
 
+# @database_common.connection_handler
+# def delete_question(cursor, question_id):
+#     cursor.execute("""
+#                     SELECT question
+#                     FROM
+#
+#                     """,
+#                    {'question_id':question_id})
+
+@database_common.connection_handler
+def vote_up_question(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET vote_number = (vote_number + 1)
+                    WHERE id = %(question_id)s;""",
+                   {'question_id':question_id} )
+
+@database_common.connection_handler
+def vote_down_question(cursor, question_id):
+    cursor.execute("""
+                    UPDATE question
+                    SET vote_number = (vote_number - 1)
+                    WHERE id = %(question_id)s;""",
+                   {'question_id':question_id} )
+
+
+@database_common.connection_handler
+def vote_up_answer(cursor, answer_id):
+    cursor.execute("""
+                    UPDATE answer
+                    SET vote_number = (vote_number + 1)
+                    WHERE id = %(answer_id)s;""",
+                   {'answer_id':answer_id} )
+
+@database_common.connection_handler
+def vote_down_answer(cursor, answer_id):
+    cursor.execute("""
+                    UPDATE answer
+                    SET vote_number = (vote_number - 1)
+                    WHERE id = %(answer_id)s;""",
+                   {'answer_id':answer_id} )
+
 def convert_to_int(list_of_dicts):
     for dictionary in list_of_dicts:
         dictionary['submission_time'] = int(dictionary['submission_time'])
