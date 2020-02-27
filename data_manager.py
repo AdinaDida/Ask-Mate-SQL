@@ -144,7 +144,7 @@ def add_comment(cursor, submission_time, question_id, message):
 @database_common.connection_handler
 def get_comment_by_question(cursor, question_id):
     cursor.execute("""
-                    SELECT submission_time, message FROM comment
+                    SELECT submission_time,id, message FROM comment
                     WHERE question_id = %(question_id)s;
                     """,
                    {'question_id': question_id})
@@ -166,9 +166,19 @@ def add_comment_to_answer(cursor, submission_time, answer_id, message):
 @database_common.connection_handler
 def get_comment_by_answer(cursor):
     cursor.execute("""
-                    SELECT submission_time, message, answer_id FROM comment
+                    SELECT submission_time, message, answer_id, id FROM comment
                     WHERE answer_id IS NOT NULL;
                     """)
+    comment = cursor.fetchall()
+    return comment
+
+@database_common.connection_handler
+def get_comment_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT submission_time, message, answer_id, id FROM comment
+                    WHERE answer_id=%(answer_id)s;
+                    """,
+                   {'answer_id':answer_id})
     comment = cursor.fetchall()
     return comment
 
@@ -209,6 +219,30 @@ def delete_question(cursor, question_id):
                     """,
                    {'question_id': question_id})
 
+@database_common.connection_handler
+def delete_answer(cursor, answer_id):
+    cursor.execute("""
+                    DELETE FROM answer
+                    WHERE id = %(answer_id)s;
+                    """,
+                   {'answer_id': answer_id})
+
+@database_common.connection_handler
+def delete_comment_answer(cursor, comment_id):
+    cursor.execute("""
+                    DELETE FROM comment
+                    WHERE id = %(comment_id)s;
+                    """,
+                   {'comment_id': comment_id})
+
+@database_common.connection_handler
+def delete_comment_question(cursor, comment_id):
+    cursor.execute("""
+                    DELETE FROM comment
+                    WHERE id = %(comment_id)s;
+                    """,
+                   {'comment_id': comment_id})
+
 
 @database_common.connection_handler
 def vote_up_question(cursor, question_id):
@@ -245,10 +279,20 @@ def vote_down_answer(cursor, answer_id):
                     WHERE id = %(answer_id)s;""",
                    {'answer_id': answer_id})
 
+@database_common.connection_handler
+def get_answer_id_by_comment(cursor, comment_id):
+    cursor.execute("""
+                        SELECT answer_id FROM comment
+                        WHERE id=%(comment_id)s;
+                        """,
+                   {'comment_id': comment_id})
+    return str(cursor.fetchone()['answer_id'])
 
-def convert_to_int(list_of_dicts):
-    for dictionary in list_of_dicts:
-        dictionary['submission_time'] = int(dictionary['submission_time'])
-        dictionary['view_number'] = int(dictionary['view_number'])
-        dictionary['vote_number'] = int(dictionary['vote_number'])
-    return list_of_dicts
+@database_common.connection_handler
+def get_question_id_by_comment(cursor, comment_id):
+    cursor.execute("""
+                        SELECT question_id FROM comment
+                        WHERE id=%(comment_id)s;
+                        """,
+                   {'comment_id': comment_id})
+    return str(cursor.fetchone()['question_id'])

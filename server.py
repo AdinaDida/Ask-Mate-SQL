@@ -46,7 +46,6 @@ def route_question(question_id):
     answers = data_manager.get_answers_by_question_id(question_id)
     comment_question = data_manager.get_comment_by_question(question_id)
     comment_answer = data_manager.get_comment_by_answer()
-    print(comment_answer)
     return render_template('question.html', question_id=question_id, question=question_data['title'],
                            question_message=question_data['message'],
                            answer_images=answers, comment=comment_question,
@@ -118,18 +117,16 @@ def delete_question(question_id):
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
-    final_id = conection.get_latest_id('sample_data/answer.csv')
-    answers = conection.all_answer_contents()
-    for answer in answers:
-        if answer[0] == answer_id:
-            id_ = answer[3]
-            answers.remove(answer)
-    for i in range(1, int(final_id)):
-        if int(answers[i + 1][0]) - int(answers[i][0]) != 1:
-            new_id = int(answers[i + 1][0])
-            new_id -= 1
-            answers[i + 1][0] = new_id
-    conection.update_answer(answers)
+    id_ = data_manager.get_question_by_answer(answer_id)
+    data_manager.delete_answer(answer_id)
+    return redirect(url_for('route_question', question_id=id_))
+
+@app.route('/comment/<int:comment_id>/delete')
+def delete_comment(comment_id):
+    id_ = data_manager.get_question_id_by_comment(comment_id)
+    data_manager.delete_comment_question(comment_id)
+
+
     return redirect(url_for('route_question', question_id=id_))
 
 
