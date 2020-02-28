@@ -3,12 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>Ask Mate Application</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/list.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     </head>
     <body>
-        <div class="content-wrapper">
+    <div class="banner-img">
+        <div class="banner-text">
             {% block content %} {% endblock %}
         </div>
+    </div>
     </body>
 </html>
 

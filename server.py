@@ -48,7 +48,7 @@ def route_question(question_id):
     return render_template('question.html', question_id=question_id, question=question_data['title'],
                            question_message=question_data['message'], image=question_data['image'],
                            answer_images=answers, comment=comment_question,
-                           answer_comment=comment_answer,tags = question_tags )
+                           answer_comment=comment_answer, tags=question_tags)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -203,7 +203,7 @@ def add_comment_to_answer(answer_id):
     return render_template('comment_answer.html', answer_id=answer_id)
 
 
-@app.route("/question/<int:question_id>/new-tag", methods = ['GET', 'POST'])
+@app.route("/question/<int:question_id>/new-tag", methods=['GET', 'POST'])
 def get_tags(question_id):
     question = data_manager.question(question_id)
     all_tags = data_manager.create_tags()
@@ -217,7 +217,9 @@ def get_tags(question_id):
             data_manager.add_new_tag(new_tag, question_id)
         return redirect(url_for('route_question', question_id=question_id))
 
-    return render_template('add_tag.html',question_id = question_id, tags = all_tags, question_title = question['title'], question_message = question['message'] )
+    return render_template('add_tag.html', question_id=question_id, tags=all_tags, question_title=question['title'],
+                           question_message=question['message'])
+
 
 @app.route("/tag/<int:tag_id>/delete")
 def delete_tag(tag_id):
@@ -227,11 +229,9 @@ def delete_tag(tag_id):
     return redirect(url_for('route_question', question_id=id_['question_id']))
 
 
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 
 if __name__ == '__main__':

@@ -21,7 +21,7 @@ h1{
 
 
 .banner-img{
-    background-image: url("../background.png");
+    background-image: url("../background.jpg");
     -webkit-background-size: cover;
     background-size: cover;
     background-repeat: no-repeat;

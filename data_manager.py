@@ -217,7 +217,6 @@ def get_question_by_answer(cursor, answer_id):
     return str(cursor.fetchone()['question_id'])
 
 
-
 @database_common.connection_handler
 def search_questions_by_pattern(cursor, pattern):
     cursor.execute(f"""
@@ -327,6 +326,7 @@ def get_question_id_by_comment(cursor, comment_id):
                    {'comment_id': comment_id})
     return str(cursor.fetchone()['question_id'])
 
+
 @database_common.connection_handler
 def create_tags(cursor):
     cursor.execute("""
@@ -341,7 +341,7 @@ def get_tags(cursor, question_id):
     cursor.execute("""
     SELECT id,name FROM tag WHERE question_id = %(question_id)s
     """,
-    {'question_id': question_id})
+                   {'question_id': question_id})
     tags = cursor.fetchall()
     return tags
 
@@ -350,17 +350,19 @@ def get_tags(cursor, question_id):
 def add_new_tag(cursor, tag, question_id):
     cursor.execute("""
     INSERT INTO tag (name, question_id) VALUES (%(tag)s, %(question_id)s);""",
-                   {'tag':tag,'question_id':question_id})
+                   {'tag': tag, 'question_id': question_id})
+
 
 @database_common.connection_handler
 def delete_tag(cursor, tag):
     cursor.execute("""
     DELETE FROM tag WHERE id = %(tag)s""",
-                   {'tag':tag})
+                   {'tag': tag})
+
 
 @database_common.connection_handler
 def get_question_by_tag(cursor, tag):
     cursor.execute("""
-    SELECT question_id FROM tag WHERE id = %(tag)s""", {'tag':tag})
+    SELECT question_id FROM tag WHERE id = %(tag)s""", {'tag': tag})
     question = cursor.fetchone()
     return question
