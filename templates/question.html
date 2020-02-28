@@ -10,14 +10,24 @@
     <div class="banner-text">
         <h1>{{ question }}</h1>
         <h2>{{ question_message }}</h2>
-        <button type="submit"><a href="/question/{{ question_id }}/new-comment">Add comment </a></button>
+        <button type="submit" style="display: inline-flex"><a href="/question/{{ question_id }}/new-comment">Add comment </a></button>
         <img src="/static/{{ image }}" id="question_image" height="400" alt="No image for this question!">
         <br><br>
-        <button type="submit"><a href="/question/{{ question_id }}/vote_up">Like</a></button>
-        <button type="submit"><a href="/question/{{ question_id }}/vote_down">Dislike</a></button>
-        <button type="submit"><a href="/question/{{ question_id }}/edit">Edit</a></button>
-        <button type="submit"><a href="/question/{{ question_id }}/new-answer">Add an answer</a></button>
-        <button type="submit"><a href="/question/{{ question_id }}/delete">Delete </a></button>
+        <button type="submit" style="display: inline-flex"><a href="/question/{{ question_id }}/vote_up">Like</a></button>
+        <button type="submit" style="display: inline-flex"><a href="/question/{{ question_id }}/vote_down">Dislike</a></button>
+        <button type="submit" style="display: inline-flex"><a href="/question/{{ question_id }}/edit">Edit</a></button>
+        <button type="submit" style="display: inline-flex"><a href="/question/{{ question_id }}/new-answer">Add an answer</a></button>
+
+        {% if accept_delete %}
+        <span style="color: red">Are you sure you wish to delete?</span>
+        <button type="submit"><a href="/question/{{ question_id }}/delete" class="linkButtons">Yes</a></button>&nbsp;
+        <button type="submit"><a href="/question/{{ question_id }}" class="linkButtons">No</a></button>&nbsp;
+    {% else %}
+        <form style="display: inline-flex" action="/question/{{ question_id }}" method="get">
+            <input type="hidden" name="start_delete" value="ok_for_delete">
+            <button type="submit">Delete</button>&nbsp;
+        </form>
+    {% endif %}
 
         <p>tags:</p>
         {% for elem in tags %}
@@ -25,6 +35,9 @@
             <button type="submit"><a href="/tag/{{ elem['id'] }}/delete">delete </a></button>
         {% endfor %}
         <button type="submit"><a href="/question/{{ question_id }}/new-tag">add tag </a></button>
+
+        {% include 'footer.html' %}
+
         <p>Comment(s):</p>
 
         {% for elem in comment %}

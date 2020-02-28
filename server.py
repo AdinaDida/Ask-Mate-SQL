@@ -45,10 +45,15 @@ def route_question(question_id):
     comment_question = data_manager.get_comment_by_question(question_id)
     comment_answer = data_manager.get_comment_by_answer()
     question_tags = data_manager.get_tags(question_id)
+
+    accept_delete = False
+    if request.args:
+        accept_delete = True
+
     return render_template('question.html', question_id=question_id, question=question_data['title'],
                            question_message=question_data['message'], image=question_data['image'],
                            answer_images=answers, comment=comment_question,
-                           answer_comment=comment_answer, tags=question_tags)
+                           answer_comment=comment_answer, tags=question_tags, accept_delete=accept_delete)
 
 
 @app.route('/add-question', methods=['GET', 'POST'])
