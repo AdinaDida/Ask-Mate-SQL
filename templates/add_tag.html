@@ -9,13 +9,13 @@
     <div class="banner-img">
     <div class="banner-text">
 
-        {{ question_title }}
-    {{ question_message }}
+        <h1>{{ question_title }}</h1>
+    <h2>{{ question_message }}</h2>
     <form action="/question/{{question_id}}/new-tag" method="POST" enctype="multipart/form-data">
         <label for="message">Select a tag:</label><br><br>
-        {% for elem in tags %}
-        <input type="checkbox" name="check" id="{{ elem['name'] }}" value = "{{ elem['name'] }}">
-            <label for="{{ elem['name'] }}">{{ elem['name'] }}</label>
+        {% for tag in tags %}
+        <input type="checkbox" name="check" id="{{ tag }}" value = "{{ tag }}">
+            <label for="{{ tag }}">{{ tag }}</label>
         {% endfor %}
         <p>Other:</p>
             <label for="other"><textarea id = "other" name = "other"></textarea></label>

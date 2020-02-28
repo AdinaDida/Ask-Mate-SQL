@@ -330,10 +330,11 @@ def get_question_id_by_comment(cursor, comment_id):
 @database_common.connection_handler
 def create_tags(cursor):
     cursor.execute("""
-    SELECT id,name FROM tag
+    SELECT DISTINCT name, id FROM tag
     """)
     tags = cursor.fetchall()
-    return tags
+    distinct_tags = list(set([elem['name'] for elem in tags]))
+    return distinct_tags
 
 
 @database_common.connection_handler

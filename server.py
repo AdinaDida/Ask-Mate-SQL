@@ -218,7 +218,7 @@ def get_tags(question_id):
         print(new_tag)
         for tag in tags:
             data_manager.add_new_tag(tag, question_id)
-        if new_tag != None:
+        if new_tag != '':
             data_manager.add_new_tag(new_tag, question_id)
         return redirect(url_for('route_question', question_id=question_id))
 
