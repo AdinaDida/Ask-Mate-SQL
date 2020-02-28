@@ -26,9 +26,9 @@
             {% for elem in ['asc', 'desc'] %}
             <option value="{{ elem }}" {{ 'selected' if elem == order_direction }}>{{ elem }}</option>
             {% endfor %}
-        </select><br><br>
+        </select>&nbsp;&nbsp;
 
-        <input type="submit" value="list">
+        <input type="submit" value="list" id="list_button">
     </form>
     <br>
     {% include 'footer.html' %}

@@ -46,7 +46,7 @@ a{
 }
 
 button {
-    background-color: #1E88E5;
+    background-color: #52591F;
     color: white;
     padding: 10px 20px;
     font-size: 14px;
@@ -57,7 +57,7 @@ button {
     cursor: pointer;
 }
 button:hover {
-    background-color: #07CFF0;
+    background-color: #7B8937;
 }
 
 form textarea{

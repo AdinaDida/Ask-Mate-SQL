@@ -1,17 +1,18 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1 id="header" xmlns="http://www.w3.org/1999/html">SKYRIM</h1>
-    <h1 id="subheader" xmlns="http://www.w3.org/1999/html">The Elder Scrolls</h1>
+    <h1 id="header">SKYRIM</h1>
+    <h1 id="subheader">The Elder Scrolls</h1>
 
-    <a href="/list">See all questions</a><br>
+    <a href="/list" id="see_all_quest">See all questions</a><br>
 
-    <form action="/search" method="get">
+    <form action="/search" method="get" id="form_search">
         <label for="question">Search in:&nbsp;&nbsp;</label>
-        <input type="text" id="question" name="q" placeholder="questions/descriptions/answers" required>&nbsp;&nbsp;
-        <input type="submit" value="search">
+        <input type="text" id="question" name="q" size="24" placeholder="questions/descriptions/answers"
+               required>&nbsp;&nbsp;
+        <input type="submit" value="search" id="list_button">
     </form>
-
+    <div id="display_quest">
     {% if query %}
         <h2>Results for "<mark>{{ quest }}</mark>":</h2>
         <h3>{{ count }} result(s)</h3>
@@ -30,4 +31,5 @@
             {% endfor %}
         {% endif %}
     {% endif %}
+    </div>
 {% endblock %}
